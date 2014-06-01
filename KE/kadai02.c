@@ -24,7 +24,7 @@ int main ()
 	printimg(data);
 }
 
-//data[]‚É‰æ‘œƒf[ƒ^‚ğ“Ç‚İ‚Ş
+//data[]ã«ç”»åƒãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
 void read_data(char data[512])
 {
 	FILE *fdr;
@@ -43,7 +43,7 @@ void read_data(char data[512])
 	fclose(fdr);
 }
 
-//1•¶š•ª‚Ì‰æ‘œƒf[ƒ^‚ğó‚¯æ‚èC‰æ–Ê‚É•\¦‚·‚éŠÖ”
+//1æ–‡å­—åˆ†ã®ç”»åƒãƒ‡ãƒ¼ã‚¿ã‚’å—ã‘å–ã‚Šï¼Œç”»é¢ã«è¡¨ç¤ºã™ã‚‹é–¢æ•°
 void printimg(char data[512])
 {
 	int i,j,k,b;
@@ -60,7 +60,7 @@ void printimg(char data[512])
 	}
 }
 
-//1•¶š•ª‚Ì‰æ‘œƒf[ƒ^‚ğó‚¯æ‚èCcharŒ^‚Ì2ŸŒ³”z—ñ‚É“WŠJ‚µ‚Ä•Û‘¶‚·‚éŠÖ”
+//1æ–‡å­—åˆ†ã®ç”»åƒãƒ‡ãƒ¼ã‚¿ã‚’å—ã‘å–ã‚Šï¼Œcharå‹ã®2æ¬¡å…ƒé…åˆ—ã«å±•é–‹ã—ã¦ä¿å­˜ã™ã‚‹é–¢æ•°
 void expand(char data[512],char pattern [64][64])
 {
 	int i,j,k,b,l;
@@ -78,7 +78,7 @@ void expand(char data[512],char pattern [64][64])
 	}
 }
 
-//expand‚Ì‹t‘€ì
+//expandã®é€†æ“ä½œ
 void compress(char data[512],char pattern[64][64])
 {
 	int i,j;
@@ -94,7 +94,7 @@ void compress(char data[512],char pattern[64][64])
 	}
 }
 
-//data[]‚ğƒNƒŠƒA‚·‚é
+//data[]ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
 void clear_ry(char data[512])
 {
 	int i;
