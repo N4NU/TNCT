@@ -19,6 +19,7 @@ int main(int argc,char *argv[])
 			fprintf(stderr,"cannot read %s\n",argv[1]);
 			exit(2);
 		}
+		printf("%d\n",count);
 		for(k=0;k<64;k++){
 			for(i=k*8;i<k*8+8;i++){
 				b=0x80;
@@ -30,9 +31,7 @@ int main(int argc,char *argv[])
 			}
 			printf("\n");
 		}
-		printf("%d\n",count);
 		count++;
-		while (getchar()!='\n');
 	}
 	fclose(fdr);
 	return 0;

@@ -28,18 +28,18 @@ int main ()
 void read_data(char data[512])
 {
 	FILE *fdr;
-	int i,j,k,l,b,count=1;
 	char fn[256];
 	printf("Please input a filename :");
 	scanf("%s",fn);
 	if((fdr=fopen(fn,"rb"))==NULL){
 		fprintf(stderr,"cannot open %s\n",fn);
-		return;
+		exit(1);
 	}
 	if(fread(data,512,1,fdr)!=1){
 		fprintf(stderr,"cannot read %s\n",fn);
-		return;
+		exit(1);
 	}
+	fread(data,sizeof(char),512,fdr);
 	fclose(fdr);
 }
 
