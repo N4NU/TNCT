@@ -16,6 +16,7 @@ int main ()
 	expand(data,pattern);
 	clear_ry(data);
 	smooth(pattern);
+	normalize(pattern);
 	compress(data,pattern);
 	printimg(data);
 }
@@ -210,16 +211,67 @@ void smooth(char p[64][64])
 	}
 }
 
+//正規化を行う
 void normalize( char p[64][64] )
 {
-	int i,j,x0=32,y0=32;
+	int i,j,x0,y0,x1,y1,w,h,u,v;
+	char tmp[64][64]={0};
 	for(i=0;i<64;i++){
 		for(j=0;j<64;j++){
 			if(p[i][j]==1){
-
+				y0=i;
+				j+=64;
+				i+=64;
 			}
 		}
 	}
-	x=(int)( u * ( w / 64 ) + x0 + 0.5 ) ;
-	y=(int)(v * (h / 64 )+ y0 + 0.5 ) ; y()( ( ) y ) ;
+	for(j=0;j<64;j++){
+		for(i=0;i<64;i++){
+			if(p[i][j]==1){
+				x0=j;
+				j+=64;
+				i+=64;
+			}
+		}
+	}
+	for(i=0;i<64;i++){
+		for(j=0;j<64;j++){
+			if(p[64-i][64-j]==1){
+				y1=64-i;
+				j+=64;
+				i+=64;
+			}
+		}
+	}	
+	for(j=0;j<64;j++){
+		for(i=0;i<64;i++){
+			if(p[64-i][64-j]==1){
+				x1=64-j;
+				j+=64;
+				i+=64;
+			}
+		}
+	}
+	w=x1-x0+1;
+	h=y1-y0+1;
+	if(w > h ){
+		y0=y0-(w-h)/2;
+		h=w;
+	} else if(w < h) {
+		x0=x0-(h-w)/2;
+		w=h;
+	}
+	for(u=0;u<64;u++){
+		for(v=0;v<64;v++){
+			if(p[(int)( u * ( w / 64.0  ) + y0 + 0.5)][(int)( v * ( h / 64.0 ) + x0 + 0.5 )]==1) tmp[u][v]=1;
+		}
+	}
+	for(i=0;i<64;i++){
+		for(j=0;j<64;j++){
+			p[i][j]=tmp[i][j];
+		}
+	}
 }
+
+
+
