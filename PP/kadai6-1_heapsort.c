@@ -1,29 +1,37 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void quick_sort (int *input, int n) {
-    if (n < 2) return;
-    int pivot = *input;
-    int *left = input;
-    int *right = input + n - 1;
-    int tmp;
-    while (left <= right) {
-        if (*left < pivot) {
-            left++;
-            continue;
-        }
-        if (*right > pivot) {
-            right--;
-            continue;
-        }
-        tmp = *left;
-        *left++ = *right;
-        *right-- = tmp;
-    }
-    quick_sort(input, right - input + 1);
-    quick_sort(left, input + n - left);
-}
+#define SWAP(r,s)  do{int t=r; r=s; s=t; } while(0)
  
+void siftDown( int *input, int start, int end)
+{
+    int root = start;
+    while ( root*2+1 < end ) {
+        int child = 2*root + 1;
+        if ((child + 1 < end) && (input[child] < input[child+1]) ) {
+            child += 1;
+        }
+        if (input[root] < input[child]) {
+            SWAP( input[child], input[root] );
+            root = child;
+        } else {
+            return;
+        }
+    }
+}
+
+void heap_sort( int *input, int N)
+{
+    int start, end;
+    for (start = (N-2)/2; start >=0; start--) {
+        siftDown( input, start, N);
+    }
+    for (end=N-1; end > 0; end--) {
+        SWAP(input[end],input[0]);
+        siftDown(input, 0, end);
+    }
+}
+
 int main () 
 {
     //declaration
@@ -53,8 +61,8 @@ int main ()
     fclose(fp);
     input=input-N;
 
-    //quick sort
-    quick_sort(input, N);
+    //heap sort
+    heap_sort(input, N);
     
     //output
     i=0;
