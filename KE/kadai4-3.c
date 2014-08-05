@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 void read_data( char data[512], FILE *rfp);
@@ -28,6 +29,7 @@ int main( int argc, char *argv[] ) {
 			}
 		}
 		strcat( fn, ".ftr" ) ;
+		j=1;
 		wfp = fopen( fn, "w");
 		tmp = strrchr( fn, 'f');
 		fn[tmp-fn]='i';
@@ -36,11 +38,10 @@ int main( int argc, char *argv[] ) {
 		rfp = fopen( fn, "rb" ) ;
 		fseek( rfp, 0, SEEK_END ) ;
 		num = ftell( rfp ) / 512 ;
-		printf("%d\n",num );
 		fseek( rfp, 0, SEEK_SET ) ;
 		for (k=0;k<num;k++){
 			read_data(data,rfp);
-			expand(data,pattern);
+			expand(data,pattern); 
 			clear_ry(data);
 			label(pattern);
 			noise(pattern,4);
@@ -411,12 +412,15 @@ void noise( char p[64][64], int size )
 //特徴量抽出
 void extract( char p[64][64], FILE *wfp)
 {
-	int i,j,k,feature[4],feat16[4];
+	int i,j,k,feature[4],feat16[4]={0};
 	for(i=0;i<7;i++){
 		for(j=0;j<7;j++){
 			ext16(p,i*8,j*8,feat16);
 			for(k=0;k<4;k++){
 				fprintf(wfp, "%d\n", feat16[k] );
+			}
+			for(int l=0;l<4;l++){
+				feat16[l]=0;
 			}
 		}
 	}
@@ -428,19 +432,19 @@ void ext16( char p[64][64], int i, int j, int feat16[4])
 	for(l=0;l<16;l+=2){
 		for(m=0;m<16;m+=2){
 			if(p[i+l][j+m]*p[i+l+1][j+m]==1) feat16[0]+=1;
-			if(p[i+l][j+m+1]*p[i+l+1][j+m+1]==1) feat16[0]+=1;
+			//if(p[i+l][j+m+1]*p[i+l+1][j+m+1]==1) feat16[0]+=1;
 			if(p[i+l][j+m]*p[i+l][j+m+1]==1) feat16[1]+=1;
-			if(p[i+l+1][j+m]*p[i+l+1][j+m+1]==1) feat16[1]+=1;
+			//if(p[i+l+1][j+m]*p[i+l+1][j+m+1]==1) feat16[1]+=1;
 			if(p[i+l][j+m]*p[i+l+1][j+m+1]==1) feat16[2]+=1;
 			if(p[i+l+1][j+m]*p[i+l][j+m+1]==1) feat16[3]+=1;
 		}
 	}
-	for(l=1;l<15;l+=2){
-		for(m=1;m<15;m+=2){
+	for(l=1;l<=15;l+=2){
+		for(m=1;m<=15;m+=2){
 			if(p[i+l][j+m]*p[i+l+1][j+m]==1) feat16[0]+=1;
-			if(p[i+l][j+m+1]*p[i+l+1][j+m+1]==1) feat16[0]+=1;
+			//if(p[i+l][j+m+1]*p[i+l+1][j+m+1]==1) feat16[0]+=1;
 			if(p[i+l][j+m]*p[i+l][j+m+1]==1) feat16[1]+=1;
-			if(p[i+l+1][j+m]*p[i+l+1][j+m+1]==1) feat16[1]+=1;
+			//if(p[i+l+1][j+m]*p[i+l+1][j+m+1]==1) feat16[1]+=1;
 			if(p[i+l][j+m]*p[i+l+1][j+m+1]==1) feat16[2]+=1;
 			if(p[i+l+1][j+m]*p[i+l][j+m+1]==1) feat16[3]+=1;
 		}
